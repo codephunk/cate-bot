@@ -1,4 +1,5 @@
 import discord
+from json.decoder import JSONDecodeError
 from discord.ext import tasks
 from blockchain import *
 
@@ -149,8 +150,12 @@ Tasks
 async def task_update_price_channel():
     if len(price_channels) > 0:
         print("updating price channel...")
-        await update_price_channel()
-        print("done.")
+        try:
+            await update_price_channel()
+        except JSONDecodeError:
+            print("error while trying to update price channel")
+        else:
+            print("done.")
 
 
 client.run(config["BOT_KEY"])
