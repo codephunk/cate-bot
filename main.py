@@ -1,3 +1,4 @@
+import fnmatch
 from json.decoder import JSONDecodeError
 from discord.ext import tasks
 from commands import *
@@ -24,6 +25,19 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    # Command: btc
+    #
+    # Display a BTC/USDT chart.
+    if message.content.lower() == 'btc' or fnmatch.fnmatch(message.content.lower(), "btc:*"):
+        interval = "1h"
+        if fnmatch.fnmatch(message.content.lower(), "btc:*"):
+            interval = message.content.lower().replace("btc:", "")
+            if interval not in ["1m", "3m", "5m", "15m", "30m", "45m", "1h", "2h", "3h", "4h", "1d", "1w"]:
+                await message.channel.send("Invalid timeframe.\nAllowed timeframes are: "
+                                           "1m, 3m, 5m, 15m, 30m, 45m, 1h, 2h, 3h, 4h, 1d, 1w")
+                return
+        await display_chart(ctx=message.channel, interval=interval)
+
     # Command: p
     #
     # Display price data for token.
@@ -34,7 +48,7 @@ async def on_message(message):
     #
     # Display a link to a candle chart for the token.
     if message.content.lower() == 'chart':
-        await display_chart(message.channel)
+        await display_chart_link(message.channel)
 
     # Command: contract
     #
