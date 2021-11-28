@@ -36,7 +36,7 @@ async def on_message(message):
                 await message.channel.send("Invalid timeframe.\nAllowed timeframes are: "
                                            "1m, 3m, 5m, 15m, 30m, 45m, 1h, 2h, 3h, 4h, 1d, 1w")
                 return
-        await display_chart(ctx=message.channel, interval=interval)
+        await display_chart(ctx=message.channel, interval=interval, height=600)
 
     # Command: p
     #
