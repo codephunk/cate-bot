@@ -67,7 +67,7 @@ async def update_price_channel():
                 formatted_price = '{:.10f}'.format(token_usd_price).replace('.', '‸')
                 print(formatted_price)
                 await rename_channel(channel, formatted_price)
-                await display_price(channel)
+                # await display_price(channel)
 
 
 """
