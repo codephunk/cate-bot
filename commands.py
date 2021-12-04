@@ -1,5 +1,6 @@
 import discord
 from blockchain import *
+import time
 from dotenv import dotenv_values
 config = dotenv_values(".env")
 
@@ -63,8 +64,9 @@ async def display_buy(ctx):
 
 
 async def display_chart(ctx, symbol="BINANCE:BTCUSDT", height="300", interval="1h"):
-    chart_image_url = "https://api.chart-img.com/v1/tradingview/advanced-chart?interval=%s&height=%s&symbol=%s" \
-                      % (interval, str(height), symbol)
+    timestamp = int(time.time())
+    chart_image_url = "https://api.chart-img.com/v1/tradingview/advanced-chart?interval=%s&height=%s&symbol=%s&t=%s" \
+                      % (interval, str(height), symbol, timestamp)
     embed = discord.Embed(color=discord.Color.orange()).set_image(url=chart_image_url)
     await ctx.send(embed=embed)
 
